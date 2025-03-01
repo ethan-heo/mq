@@ -1,51 +1,33 @@
 import { MediaQuery } from './types';
-import isUndefined from './utils/is-undefined';
 
-type Instance = InstanceType<typeof MatchMedia>;
 type MatchMediaCallback = (ev: MediaQueryListEvent) => void;
 
-const isInitialized = (ins: any): ins is Required<Instance> => {
-    if (!(ins instanceof MatchMedia)) {
-        return false;
-    }
-
-    return !isUndefined(ins.matchMedia) && !isUndefined(ins.callback);
-};
-
-interface MatchMediaOptions {
-    changeCallback: MatchMediaCallback;
-}
-
 class MatchMedia {
-    mediaQuery: MediaQuery;
-    matchMedia?: MediaQueryList;
-    callback?: MatchMediaCallback;
-    changeCallback?: MatchMediaCallback;
+    #matchMedia: MediaQueryList;
+    #callbacks: MatchMediaCallback[] = [];
+    #callback: MatchMediaCallback;
 
     constructor(mediaQuery: MediaQuery) {
-        this.mediaQuery = mediaQuery;
-    }
-
-    init(options: MatchMediaOptions) {
-        this.callback = options.changeCallback;
-        this.matchMedia = window.matchMedia(this.mediaQuery);
-        this.matchMedia.addEventListener('change', this.callback);
+        this.#callback = (ev) => this.#callbacks.forEach((cb) => cb(ev));
+        this.#matchMedia = window.matchMedia(mediaQuery);
+        this.#matchMedia.addEventListener('change', this.#callback);
     }
 
     run() {
-        if (!isInitialized(this)) {
-            return;
-        }
+        this.#matchMedia.dispatchEvent(new Event('change'));
+    }
 
-        this.matchMedia.dispatchEvent(new Event('change'));
+    subscribe(callback: MatchMediaCallback) {
+        this.#callbacks.push(callback);
+
+        return () => {
+            this.#callbacks = this.#callbacks.filter((cb) => cb !== callback);
+        };
     }
 
     clear() {
-        if (!isInitialized(this)) {
-            return;
-        }
-
-        this.matchMedia.removeEventListener('change', this.callback);
+        this.#matchMedia.removeEventListener('change', this.#callback);
+        this.#callbacks = [];
     }
 }
 
