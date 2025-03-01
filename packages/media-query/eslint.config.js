@@ -11,6 +11,7 @@ export default [
         rules: {
             '@typescript-eslint/no-explicit-any': 'off',
         },
+        ignores: ['./dist/**/*'],
     },
     { languageOptions: { globals: globals.browser } },
 ];
