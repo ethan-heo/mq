@@ -1,8 +1,14 @@
 {
-    "name": "media-query",
+    "name": "@mq/core",
     "private": true,
     "version": "0.0.0",
     "type": "module",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
     "scripts": {
         "build": "tsc --project tsconfig.json && vite build",
         "lint": "eslint --ext .ts .",
