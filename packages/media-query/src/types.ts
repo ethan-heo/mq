@@ -1,6 +1,5 @@
 export interface DefaultMediaQuery {
-    device: string;
-    module: any;
+    [key: string]: any;
 }
 
 export type MediaQuery = string;
