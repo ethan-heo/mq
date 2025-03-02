@@ -1,7 +1,22 @@
 import MatchMedia from './match-media';
 import { DefaultMediaQuery, MediaQuery } from './types';
 
-const matchMediaMap = new Map<DefaultMediaQuery['device'], MatchMedia>();
+const mediaQueryMap = new Map<DefaultMediaQuery['device'], MediaQuery>();
+
+/**
+ *
+ * @param device DefaultMediaQuery['device']
+ * @param mediaQuery
+ * @example
+ * resistMediaQuery('mobile', '(max-width: 768px)');
+ * resistMediaQuery('desktop', 'screen and (min-width: 1024px)');
+ */
+export const resistMediaQuery = (
+    device: DefaultMediaQuery['device'],
+    mediaQuery: MediaQuery,
+) => {
+    mediaQueryMap.set(device, mediaQuery);
+};
 
 /**
  *
@@ -12,39 +27,12 @@ const matchMediaMap = new Map<DefaultMediaQuery['device'], MatchMedia>();
  * createMatchMedia('mobile', '(max-width: 768px)');
  * createMatchMedia('desktop', 'screen and (min-width: 1024px)');
  */
-export const createMatchMedia = (
-    device: DefaultMediaQuery['device'],
-    mediaQuery: MediaQuery,
-) => {
-    matchMediaMap.set(device, new MatchMedia(mediaQuery));
-};
+export const createMatchMedia = (device: DefaultMediaQuery['device']) => {
+    const mediaQuery = mediaQueryMap.get(device);
 
-/**
- *
- * @param device DefaultMediaQuery['device']
- */
-export const removeMatchMedia = (device: DefaultMediaQuery['device']) => {
-    const matchMedia = matchMediaMap.get(device);
-
-    if (!matchMedia) {
-        throw new Error(`MatchMedia for ${device} is not found`);
+    if (!mediaQuery) {
+        throw new Error(`MediaQuery for ${device} is not found`);
     }
 
-    matchMedia.clear();
-    matchMediaMap.delete(device);
-};
-
-/**
- *
- * @param device DefaultMediaQuery['device']
- * @returns
- */
-export const getMatchMedia = (device: DefaultMediaQuery['device']) => {
-    const matchMedia = matchMediaMap.get(device);
-
-    if (!matchMedia) {
-        throw new Error(`MatchMedia for ${device} is not found`);
-    }
-
-    return matchMedia;
+    return new MatchMedia(mediaQuery);
 };
