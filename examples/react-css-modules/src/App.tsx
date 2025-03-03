@@ -9,7 +9,6 @@ function App() {
         tablet,
         desktop,
     });
-    console.log('App');
 
     return (
         <div className={module.container}>
