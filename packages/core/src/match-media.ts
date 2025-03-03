@@ -13,6 +13,7 @@ class MatchMedia {
         this.#listener = (ev) => this.#callbacks.forEach((cb) => cb(ev));
         this.#matchMedia = window.matchMedia(mediaQuery);
         this.#matchMedia.addEventListener('change', this.#listener);
+        console.log('create match media');
     }
 
     run() {
@@ -20,7 +21,9 @@ class MatchMedia {
     }
 
     subscribe(callback: ChangeCallback): Unsubscribe {
-        this.#callbacks.push(callback);
+        if (!this.#callbacks.includes(callback)) {
+            this.#callbacks.push(callback);
+        }
 
         return () => {
             this.#callbacks = this.#callbacks.filter((cb) => cb !== callback);
@@ -32,6 +35,7 @@ class MatchMedia {
     }
 
     clear() {
+        console.log('clear match media');
         this.#matchMedia.removeEventListener('change', this.#listener);
         this.#callbacks = [];
     }
