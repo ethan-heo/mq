@@ -1,5 +1,5 @@
 import MatchMedia, { createMatchMedia, DefaultMediaQuery } from '@mq/core';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 type Device = DefaultMediaQuery['device'];
 
@@ -37,8 +37,8 @@ const createMatchMediaMap = (options: Options) => {
     return matchMediaMap;
 };
 
-function useMediaQuery<T extends Record<Device, any>>(options: T) {
-    const matchMediaMap = createMatchMediaMap(options);
+function useMediaQuery<T extends Options>(options: T) {
+    const matchMediaMap = useMemo(() => createMatchMediaMap(options), []);
     const [module, setModule] = useState<T[Device]>(
         initialState({ options, matchMediaMap }),
     );
@@ -65,7 +65,7 @@ function useMediaQuery<T extends Record<Device, any>>(options: T) {
                 matchMedia.clear();
             });
         };
-    }, [options]);
+    }, []);
 
     return module as T[Device];
 }
