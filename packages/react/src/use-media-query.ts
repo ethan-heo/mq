@@ -1,35 +1,67 @@
 import MatchMedia, { createMatchMedia, DefaultMediaQuery } from '@mq/core';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Device = DefaultMediaQuery['device'];
 
-function useMediaQuery<T extends Record<Device, any>>(options: T) {
-    const [module, setModule] = useState<T[Device]>();
-    const mmMap = useRef<Map<Device, MatchMedia>>(new Map()).current;
+type Options = Record<Device, any>;
 
-    useEffect(() => {
-        const mediaQueries = Object.entries(options);
+type MatchMediaMap = Map<Device, MatchMedia>;
 
-        if (mediaQueries.length === 0) {
-            return;
+const initialState = ({
+    options,
+    matchMediaMap,
+}: {
+    options: Options;
+    matchMediaMap: MatchMediaMap;
+}) => {
+    for (const [device, module] of Object.entries(options)) {
+        const matchMedia = matchMediaMap.get(device as Device);
+
+        if (!matchMedia) {
+            continue;
         }
 
-        mediaQueries.forEach(([device, module]) => {
-            const matchMedia = createMatchMedia(device as Device);
+        if (matchMedia.matches()) {
+            return module;
+        }
+    }
+};
+
+const createMatchMediaMap = (options: Options) => {
+    const matchMediaMap = new Map<Device, MatchMedia>();
+
+    Object.keys(options).forEach((device) => {
+        matchMediaMap.set(device as Device, createMatchMedia(device as Device));
+    });
+
+    return matchMediaMap;
+};
+
+function useMediaQuery<T extends Record<Device, any>>(options: T) {
+    const matchMediaMap = createMatchMediaMap(options);
+    const [module, setModule] = useState<T[Device]>(
+        initialState({ options, matchMediaMap }),
+    );
+
+    useEffect(() => {
+        Object.entries(options).forEach(([device, module]) => {
+            const matchMedia = matchMediaMap.get(device as Device);
+
+            if (!matchMedia) {
+                return;
+            }
 
             matchMedia.subscribe((ev) => {
-                console.log(device, ev.matches);
-                if (ev.matches) {
+                const matches = (ev.currentTarget as MediaQueryList)!.matches;
+
+                if (matches) {
                     setModule(module);
                 }
             });
-            matchMedia.run();
-
-            mmMap.set(device as Device, matchMedia);
         });
 
         return () => {
-            mmMap.forEach((matchMedia) => {
+            matchMediaMap.forEach((matchMedia) => {
                 matchMedia.clear();
             });
         };
