@@ -33,8 +33,13 @@ describe(`media query`, () => {
     });
 
     it.concurrent(`5. clear match media`, () => {
-        matchMedia.clear();
+        const obj = { callback: () => {} };
+        const spy = vi.spyOn(obj, 'callback');
 
-        expect(MatchMedia.ins.has(matchMedia)).toBeFalsy();
+        matchMedia.subscribe(obj.callback);
+        matchMedia.clear();
+        matchMedia.run();
+
+        expect(spy).toHaveBeenCalledTimes(0);
     });
 });

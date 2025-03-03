@@ -5,7 +5,6 @@ type ChangeCallback = (ev: MediaQueryListEvent) => void;
 type Unsubscribe = () => void;
 
 class MatchMedia {
-    static ins = new Set<MatchMedia>();
     #matchMedia: MediaQueryList;
     #callbacks: ChangeCallback[] = [];
     #listener: ChangeCallback;
@@ -14,7 +13,6 @@ class MatchMedia {
         this.#listener = (ev) => this.#callbacks.forEach((cb) => cb(ev));
         this.#matchMedia = window.matchMedia(mediaQuery);
         this.#matchMedia.addEventListener('change', this.#listener);
-        MatchMedia.ins.add(this);
     }
 
     run() {
@@ -29,10 +27,13 @@ class MatchMedia {
         };
     }
 
+    matches() {
+        return this.#matchMedia.matches;
+    }
+
     clear() {
         this.#matchMedia.removeEventListener('change', this.#listener);
         this.#callbacks = [];
-        MatchMedia.ins.delete(this);
     }
 }
 
