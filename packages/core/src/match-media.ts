@@ -13,7 +13,6 @@ class MatchMedia {
         this.#listener = (ev) => this.#callbacks.forEach((cb) => cb(ev));
         this.#matchMedia = window.matchMedia(mediaQuery);
         this.#matchMedia.addEventListener('change', this.#listener);
-        console.log('create match media');
     }
 
     run() {
