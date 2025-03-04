@@ -24,8 +24,8 @@ export const resistMediaQuery = (
  * @param mediaQuery
  *
  * @example
- * createMatchMedia('mobile', '(max-width: 768px)');
- * createMatchMedia('desktop', 'screen and (min-width: 1024px)');
+ * createMatchMedia('mobile');
+ * createMatchMedia('desktop');
  */
 export const createMatchMedia = (device: DefaultMediaQuery['device']) => {
     const mediaQuery = mediaQueryMap.get(device);
