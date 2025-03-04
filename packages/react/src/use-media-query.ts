@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 
 type Device = DefaultMediaQuery['device'];
 
-type Options = Record<Device, any>;
+type Options = Partial<Record<Device, any>>;
 
 type MatchMediaMap = Map<Device, MatchMedia>;
 
@@ -67,7 +67,7 @@ function useMediaQuery<T extends Options>(options: T) {
         };
     }, []);
 
-    return module as T[Device];
+    return module as T[keyof T];
 }
 
 export default useMediaQuery;
