@@ -4,9 +4,9 @@
     "type": "module",
     "author": {
         "email": "ethanheo.dev@gmail.com",
-        "name": "ethan-heo",
-        "url": "https://github.com/ethan-heo/mq"
+        "name": "ethan-heo"
     },
+    "description": "Provides hooks to use MQ in your React environment",
     "repository": {
         "type": "git",
         "url": "https://github.com/ethan-heo/mq.git"
@@ -17,6 +17,12 @@
             "types": "./dist/index.d.ts"
         }
     },
+    "keywords": [
+        "media query",
+        "responsive",
+        "match media",
+        "react"
+    ],
     "scripts": {
         "build": "tsc && vite build",
         "test": "vitest"
