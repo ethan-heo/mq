@@ -7,6 +7,10 @@
         "name": "ethan-heo",
         "url": "https://github.com/ethan-heo/mq"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ethan-heo/mq/tree/release/packages/react"
+    },
     "exports": {
         ".": {
             "import": "./dist/index.js",
