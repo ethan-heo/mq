@@ -1,5 +1,11 @@
 # react-mq-hook
 
+## 0.1.3
+
+### Patch Changes
+
+- [#31](https://github.com/ethan-heo/mq/pull/31) [`62acd04`](https://github.com/ethan-heo/mq/commit/62acd046d7ad49135a368dd71c4dedd05fd10836) Thanks [@ethan-heo](https://github.com/ethan-heo)! - Fix pkg files
+
 ## 0.1.2
 
 ### Patch Changes
