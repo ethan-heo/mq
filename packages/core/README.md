@@ -1,4 +1,4 @@
-## @mq/core
+## mq-core
 
 Provides an interface based on handlers created utilizing window.matchMedia.
 
@@ -65,9 +65,9 @@ Override it based on the library you use.
 For example:
 
 ```typescript
-import '@mq/core';
+import 'mq-core';
 
-declare module '@mq/core' {
+declare module 'mq-core' {
     export interface DefaultMediaQuery {
         device: 'mobile' | 'tablet' | 'desktop';
     }

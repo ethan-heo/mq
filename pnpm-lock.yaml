@@ -240,7 +240,7 @@ importers:
 
   packages/react:
     dependencies:
-      '@mq/core':
+      mq-core:
         specifier: workspace:*
         version: link:../core
       react:

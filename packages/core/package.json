@@ -1,5 +1,5 @@
 {
-    "name": "@mq/core",
+    "name": "mq-core",
     "version": "0.0.0",
     "type": "module",
     "private": true,

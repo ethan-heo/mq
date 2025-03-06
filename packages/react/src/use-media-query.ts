@@ -1,4 +1,4 @@
-import MatchMedia, { createMatchMedia, DefaultMediaQuery } from '@mq/core';
+import MatchMedia, { createMatchMedia, DefaultMediaQuery } from 'mq-core';
 import { useEffect, useState, useMemo } from 'react';
 
 type Device = DefaultMediaQuery['device'];
