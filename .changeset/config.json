@@ -7,5 +7,5 @@
   "commit": false,
   "access": "public",
   "baseBranch": "release",
-  "ignore": ["apps"]
+  "ignore": ["examples/*"]
 }
