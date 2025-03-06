@@ -2,27 +2,12 @@
     "name": "@mq/react",
     "version": "0.0.0",
     "type": "module",
-    "author": {
-        "email": "ethanheo.dev@gmail.com",
-        "name": "ethan-heo"
-    },
-    "description": "Provides hooks to use MQ in your React environment",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ethan-heo/mq.git"
-    },
     "exports": {
         ".": {
             "import": "./dist/index.js",
             "types": "./dist/index.d.ts"
         }
     },
-    "keywords": [
-        "media query",
-        "responsive",
-        "match media",
-        "react"
-    ],
     "scripts": {
         "build": "tsc && vite build",
         "test": "vitest"
@@ -40,5 +25,24 @@
     "dependencies": {
         "@mq/core": "workspace:*",
         "react": "^19.0.0"
-    }
+    },
+    "author": {
+        "email": "ethanheo.dev@gmail.com",
+        "name": "ethan-heo"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "description": "Provides hooks to use MQ in your React environment",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ethan-heo/mq.git"
+    },
+    
+    "keywords": [
+        "media query",
+        "responsive",
+        "match media",
+        "react"
+    ]
 }
