@@ -1,5 +1,12 @@
 # react-css-modules
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`24a728d`](https://github.com/ethan-heo/mq/commit/24a728def7c6ca31a9f44fe0652747d2b62315cd)]:
+    - react-mq-hook@0.1.2
+
 ## 0.0.2
 
 ### Patch Changes
