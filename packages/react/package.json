@@ -2,6 +2,11 @@
     "name": "@mq/react",
     "version": "0.0.0",
     "type": "module",
+    "author": {
+        "email": "ethanheo.dev@gmail.com",
+        "name": "ethan-heo",
+        "url": "https://github.com/ethan-heo/mq"
+    },
     "exports": {
         ".": {
             "import": "./dist/index.js",
