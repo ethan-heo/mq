@@ -1,4 +1,4 @@
-name: CI challenges
+name: ci
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ on:
       - "packages/**/src/**"
 
 jobs:
-  CI:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
