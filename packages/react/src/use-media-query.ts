@@ -7,13 +7,19 @@ type Options = Partial<Record<Device, any>>;
 
 type MatchMediaMap = Map<Device, MatchMedia>;
 
-const initialState = ({
+const initialState = <T extends Options>({
     options,
     matchMediaMap,
+    defaultValue,
 }: {
-    options: Options;
+    defaultValue?: T[keyof T];
+    options: T;
     matchMediaMap: MatchMediaMap;
 }) => {
+    if (defaultValue) {
+        return defaultValue;
+    }
+
     for (const [device, module] of Object.entries(options)) {
         const matchMedia = matchMediaMap.get(device as Device);
 
@@ -30,6 +36,10 @@ const initialState = ({
 const createMatchMediaMap = (options: Options) => {
     const matchMediaMap = new Map<Device, MatchMedia>();
 
+    if (typeof window === 'undefined') {
+        return matchMediaMap;
+    }
+
     Object.keys(options).forEach((device) => {
         matchMediaMap.set(device as Device, createMatchMedia(device as Device));
     });
@@ -37,10 +47,13 @@ const createMatchMediaMap = (options: Options) => {
     return matchMediaMap;
 };
 
-function useMediaQuery<T extends Options>(options: T) {
+function useMediaQuery<T extends Options>(
+    options: T,
+    defaultValue?: T[keyof T],
+) {
     const matchMediaMap = useMemo(() => createMatchMediaMap(options), []);
     const [module, setModule] = useState<T[Device]>(
-        initialState({ options, matchMediaMap }),
+        initialState({ options, matchMediaMap, defaultValue }),
     );
 
     useEffect(() => {
@@ -58,6 +71,8 @@ function useMediaQuery<T extends Options>(options: T) {
                     setModule(module);
                 }
             });
+
+            matchMedia.run();
         });
 
         return () => {
