@@ -34,7 +34,6 @@ class MatchMedia {
     }
 
     clear() {
-        console.log('clear match media');
         this.#matchMedia.removeEventListener('change', this.#listener);
         this.#callbacks = [];
     }
