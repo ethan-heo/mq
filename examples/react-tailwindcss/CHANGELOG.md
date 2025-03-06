@@ -1,5 +1,12 @@
 # react-tailwindcss
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`a98a189`](https://github.com/ethan-heo/mq/commit/a98a1896e8a82a06cd00320ea09c89bdade51f66)]:
+    - react-mq-hook@0.1.4
+
 ## 0.0.4
 
 ### Patch Changes
