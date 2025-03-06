@@ -1,5 +1,12 @@
 # nextjs
 
+## 0.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`60b1d92`](https://github.com/ethan-heo/mq/commit/60b1d92154b0cc0fccb835f8af2e013df9bff8b9)]:
+    - react-mq-hook@0.1.1
+
 ## 0.0.1
 
 ### Patch Changes
