@@ -1,5 +1,12 @@
 # react-styled-components
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`1c8c83f`](https://github.com/ethan-heo/mq/commit/1c8c83f6a0708234a08548561dc06d26eae7cef3)]:
+    - @mq/react@0.1.0
+
 ## 0.0.3
 
 ### Patch Changes
