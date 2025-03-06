@@ -1,7 +1,8 @@
 {
     "name": "@mq/react",
-    "version": "1.0.0",
+    "version": "0.0.0",
     "type": "module",
+    "private": false,
     "exports": {
         ".": {
             "import": "./dist/index.js",
@@ -38,7 +39,6 @@
         "type": "git",
         "url": "https://github.com/ethan-heo/mq.git"
     },
-    
     "keywords": [
         "media query",
         "responsive",
