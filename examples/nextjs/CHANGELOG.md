@@ -1,5 +1,12 @@
 # nextjs
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`7d0817b`](https://github.com/ethan-heo/mq/commit/7d0817bb69f1d9c69cf1e32b116f502367cf65f8)]:
+    - @mq/react@0.1.0
+
 ## 0.1.4
 
 ### Patch Changes
