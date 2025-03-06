@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "build": "turbo build --filter=@mq/*",
+        "build": "turbo build --filter=*-mq-hook",
         "test": "turbo test",
         "version": "changeset version",
         "publish": "changeset publish"
