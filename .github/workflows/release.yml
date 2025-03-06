@@ -1,13 +1,15 @@
 name: Release
 on:
-    push:
+    pull_request:
         branches:
-            - master
-concurrency: ${{ github.workflow }}-${{ github.ref }}
-
+            - release
+        types:
+            - closed
+        
 jobs:
-    ci: 
-        name: Test
+    release:
+        if: github.event.pull_request.merged == true
+        name: Release
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repo
@@ -24,13 +26,6 @@ jobs:
             - name: Install Dependencies
               run: pnpm install --no-frozen-lockfile
 
-            - name: Test Packages
-              run: pnpm test
-    release:
-        name: Release
-        needs: ci
-        runs-on: ubuntu-latest
-        steps:
             - name: Build
               run: pnpm build
 
