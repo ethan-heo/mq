@@ -12,7 +12,7 @@
     "dependencies": {
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
-        "mq-react": "workspace:*"
+        "react-mq-hook": "workspace:*"
     },
     "devDependencies": {
         "@eslint/js": "^9.21.0",

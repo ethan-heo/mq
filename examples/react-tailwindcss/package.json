@@ -10,7 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "mq-react": "workspace:*",
+        "react-mq-hook": "workspace:*",
         "@tailwindcss/vite": "^4.0.9",
         "classnames": "^2.5.1",
         "react": "^19.0.0",

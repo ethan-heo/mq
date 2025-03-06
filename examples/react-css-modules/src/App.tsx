@@ -1,4 +1,4 @@
-import useMediaQuery from 'mq-react';
+import useMediaQuery from 'react-mq-hook';
 import mobile from './mobile.module.css';
 import tablet from './tablet.module.css';
 import desktop from './desktop.module.css';
