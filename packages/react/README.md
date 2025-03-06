@@ -78,3 +78,32 @@ function App() {
 
 export default App;
 ```
+
+#### 3. Set a default value
+
+By default, the return value is set to return a value where matchMedia's matches is true, but you can make it return the default value by setting the default value for the second argument.
+
+```typescript
+import useMediaQuery from '@mq/react';
+import mobile from './mobile.module.css';
+import tablet from './tablet.module.css';
+import desktop from './desktop.module.css';
+
+function App() {
+    const module = useMediaQuery({
+        mobile,
+        tablet,
+        desktop,
+    }, mobile); // modules === mobile
+
+    return (
+        <div className={module.container}>
+            <div className={`${module.item} ${module.red}`}></div>
+            <div className={`${module.item} ${module.green}`}></div>
+            <div className={`${module.item} ${module.blue}`}></div>
+        </div>
+    );
+}
+
+export default App;
+```
