@@ -11,4 +11,4 @@ MQ is a library that makes it easy to work with responsiveness in a modular syst
 
 ### Installation
 
-- To use it in a **React** environment, go to this [link] (./packages/react/)
+- To use it in a **React** environment, go to this [link](./packages/react/)
