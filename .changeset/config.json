@@ -6,6 +6,5 @@
 ],
   "commit": false,
   "access": "public",
-  "baseBranch": "release",
-  "ignore": ["examples/*"]
+  "baseBranch": "release"
 }
