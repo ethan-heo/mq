@@ -1,6 +1,6 @@
-import '@mq/react';
+import 'mq-react';
 
-declare module '@mq/react' {
+declare module 'mq-react' {
     export interface DefaultMediaQuery {
         device: 'mobile' | 'tablet' | 'desktop';
     }

@@ -20,7 +20,7 @@ importers:
 
   examples/nextjs:
     dependencies:
-      '@mq/react':
+      mq-react:
         specifier: workspace:*
         version: link:../../packages/react
       next:
@@ -57,7 +57,7 @@ importers:
 
   examples/react-css-modules:
     dependencies:
-      '@mq/react':
+      mq-react:
         specifier: workspace:*
         version: link:../../packages/react
       react:
@@ -103,7 +103,7 @@ importers:
 
   examples/react-styled-components:
     dependencies:
-      '@mq/react':
+      mq-react:
         specifier: workspace:*
         version: link:../../packages/react
       react:
@@ -152,15 +152,15 @@ importers:
 
   examples/react-tailwindcss:
     dependencies:
-      '@mq/react':
-        specifier: workspace:*
-        version: link:../../packages/react
       '@tailwindcss/vite':
         specifier: ^4.0.9
         version: 4.0.9(vite@6.2.0(@types/node@20.17.23)(jiti@2.4.2)(lightningcss@1.29.1))
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
+      mq-react:
+        specifier: workspace:*
+        version: link:../../packages/react
       react:
         specifier: ^19.0.0
         version: 19.0.0

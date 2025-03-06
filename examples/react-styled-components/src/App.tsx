@@ -1,4 +1,4 @@
-import useMediaQuery from '@mq/react';
+import useMediaQuery from 'mq-react';
 import * as mobile from './mobile.styled';
 import * as tablet from './tablet.styled';
 import * as desktop from './desktop.styled';

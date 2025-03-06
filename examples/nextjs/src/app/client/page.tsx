@@ -1,6 +1,6 @@
 'use client';
 
-import useMediaQuery, { resistMediaQuery } from '@mq/react';
+import useMediaQuery, { resistMediaQuery } from 'mq-react';
 import mobile from '../mobile.module.css';
 import tablet from '../tablet.module.css';
 import desktop from '../desktop.module.css';

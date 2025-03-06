@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
-import { resistMediaQuery } from '@mq/react';
+import { resistMediaQuery } from 'mq-react';
 import './common.css';
 
 resistMediaQuery('mobile', '(max-width: 768px)');

@@ -1,4 +1,4 @@
-import useMediaQuery from '@mq/react';
+import useMediaQuery from 'mq-react';
 import classnames from 'classnames';
 
 const styles = {
