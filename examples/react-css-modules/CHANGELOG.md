@@ -1,5 +1,12 @@
 # react-css-modules
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`a668620`](https://github.com/ethan-heo/mq/commit/a668620aa31c129fe52989f2a8dd800ff3ef36d2)]:
+    - @mq/react@2.0.0
+
 ## 0.0.2
 
 ### Patch Changes

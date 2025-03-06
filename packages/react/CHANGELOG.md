@@ -1,5 +1,11 @@
 # @mq/react
 
+## 2.0.0
+
+### Major Changes
+
+- [#11](https://github.com/ethan-heo/mq/pull/11) [`a668620`](https://github.com/ethan-heo/mq/commit/a668620aa31c129fe52989f2a8dd800ff3ef36d2) Thanks [@ethan-heo](https://github.com/ethan-heo)! - First release
+
 ## 1.0.0
 
 ### Major Changes
