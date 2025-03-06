@@ -1,4 +1,4 @@
-## @mq/react
+## react-mq-hook
 
 Provides hooks to use MQ in your React environment.
 
@@ -6,13 +6,13 @@ Provides hooks to use MQ in your React environment.
 
 ```bash
 # npm
-npm install @mq/react
+npm install react-mq-hook
 
 # yarn
-yarn add @mq/react
+yarn add react-mq-hook
 
 # pnpm
-pnpm add @mq/react
+pnpm add react-mq-hook
 ```
 
 ### Usage
@@ -22,9 +22,9 @@ pnpm add @mq/react
 Helps you infer the viewport device information used in your project.
 
 ```typescript
-import '@mq/react';
+import 'react-mq-hook';
 
-declare module '@mq/react' {
+declare module 'react-mq-hook' {
     export interface DefaultMediaQuery {
         device: 'mobile' | 'tablet' | 'desktop';
     }
@@ -39,7 +39,7 @@ For example:
 
 ```typescript
 import { createRoot } from 'react-dom/client';
-import { resistMediaQuery } from '@mq/react';
+import { resistMediaQuery } from 'react-mq-hook';
 import App from './App.tsx';
 import './common.css';
 
@@ -55,7 +55,7 @@ createRoot(document.getElementById('root')!).render(<App />);
 Use the device-specific styles you registered using the useMediaQuery hook.
 
 ```typescript
-import useMediaQuery from '@mq/react';
+import useMediaQuery from 'react-mq-hook';
 import mobile from './mobile.module.css';
 import tablet from './tablet.module.css';
 import desktop from './desktop.module.css';
@@ -84,7 +84,7 @@ export default App;
 By default, the return value is set to return a value where matchMedia's matches is true, but you can make it return the default value by setting the default value for the second argument.
 
 ```typescript
-import useMediaQuery from '@mq/react';
+import useMediaQuery from 'react-mq-hook';
 import mobile from './mobile.module.css';
 import tablet from './tablet.module.css';
 import desktop from './desktop.module.css';

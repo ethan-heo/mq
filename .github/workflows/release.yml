@@ -11,8 +11,6 @@ jobs:
         if: github.event.pull_request.merged == true
         name: Release
         runs-on: ubuntu-latest
-        env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         steps:
             - name: Checkout Repo
               uses: actions/checkout@v3
@@ -31,10 +29,6 @@ jobs:
             - name: Build
               run: pnpm build
 
-            - name: Setup .npmrc
-              run: |
-                echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-
             - name: Create Release Pull Request
               id: changesets
               uses: changesets/action@v1
@@ -44,4 +38,5 @@ jobs:
                   version: pnpm changeset version
                   publish: pnpm changeset publish
               env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}

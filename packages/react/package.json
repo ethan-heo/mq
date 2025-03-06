@@ -1,6 +1,6 @@
 {
-    "name": "mq-react",
-    "version": "0.1.0",
+    "name": "react-mq-hook",
+    "version": "0.0.0",
     "type": "module",
     "exports": {
         ".": {
@@ -23,7 +23,7 @@
         "vitest": "^3.0.7"
     },
     "dependencies": {
-        "@mq/core": "workspace:*",
+        "mq-core": "workspace:*",
         "react": "^19.0.0"
     },
     "author": {
