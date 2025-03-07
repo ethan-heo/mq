@@ -8,10 +8,10 @@ const mediaQueryMap = new Map<DefaultMediaQuery['device'], MediaQuery>();
  * @param device DefaultMediaQuery['device']
  * @param mediaQuery
  * @example
- * resistMediaQuery('mobile', '(max-width: 768px)');
- * resistMediaQuery('desktop', 'screen and (min-width: 1024px)');
+ * addMediaQuery('mobile', '(max-width: 768px)');
+ * addMediaQuery('desktop', 'screen and (min-width: 1024px)');
  */
-export const resistMediaQuery = (
+export const addMediaQuery = (
     device: DefaultMediaQuery['device'],
     mediaQuery: MediaQuery,
 ) => {

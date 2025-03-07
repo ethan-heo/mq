@@ -1,13 +1,13 @@
 'use client';
 
-import useMediaQuery, { resistMediaQuery } from 'react-mq-hook';
+import useMediaQuery, { addMediaQuery } from 'react-mq-hook';
 import mobile from '../mobile.module.css';
 import tablet from '../tablet.module.css';
 import desktop from '../desktop.module.css';
 
-resistMediaQuery('mobile', '(max-width: 768px)');
-resistMediaQuery('tablet', '(min-width: 769px) and (max-width: 1024px)');
-resistMediaQuery('desktop', '(min-width: 1025px)');
+addMediaQuery('mobile', '(max-width: 768px)');
+addMediaQuery('tablet', '(min-width: 769px) and (max-width: 1024px)');
+addMediaQuery('desktop', '(min-width: 1025px)');
 
 export default function Client() {
     const css = useMediaQuery(

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createMatchMedia, resistMediaQuery } from './media-query';
+import { createMatchMedia, addMediaQuery } from './media-query';
 import MatchMedia from './match-media';
 
 describe(`media query`, () => {
@@ -9,7 +9,7 @@ describe(`media query`, () => {
     let unsubscribe = () => {};
 
     it.concurrent(`1. resist media query`, () => {
-        resistMediaQuery('mobile', '(max-width: 768px)');
+        addMediaQuery('mobile', '(max-width: 768px)');
     });
 
     it.concurrent(`2. create match media`, () => {
