@@ -1,5 +1,11 @@
 # react-mq-hook
 
+## 0.1.5
+
+### Patch Changes
+
+- [#35](https://github.com/ethan-heo/mq/pull/35) [`df8274a`](https://github.com/ethan-heo/mq/commit/df8274a3a5a1d7e346d31d8767a14f6fc252286e) Thanks [@ethan-heo](https://github.com/ethan-heo)! - Change function name
+
 ## 0.1.4
 
 ### Patch Changes
