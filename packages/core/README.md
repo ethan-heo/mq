@@ -4,14 +4,14 @@ Provides an interface based on handlers created utilizing window.matchMedia.
 
 ### Usage
 
-#### 1. resistMediaQuery
+#### 1. addMediaQuery
 
 Utilize a Map<DefaultMediaQuery['device'], MediaQuery> Singleton object to register a MediaQuery per device.
 
 For Example:
 
 ```typescript
-resistMediaQuery('mobile', '(max-width: 768px)');
+addMediaQuery('mobile', '(max-width: 768px)');
 ```
 
 #### 2. createMatchMedia

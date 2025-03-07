@@ -5,6 +5,7 @@ MQ is a library that makes it easy to work with responsiveness in a modular syst
 ### Examples
 
 - React
+    - [Nextjs](./examples/nextjs/)
     - [CSS Modules](./examples/react-css-modules/)
     - [Styled-components](./examples/react-styled-components/)
     - [Tailwindcss](./examples/react-tailwindcss/)
