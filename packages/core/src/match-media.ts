@@ -1,22 +1,39 @@
 import { MediaQuery } from './types';
 
-type ChangeCallback = (ev: MediaQueryListEvent) => void;
+export type ChangeCallback = (ev: MediaQueryListEvent) => void;
 
-type Unsubscribe = () => void;
+export type Unsubscribe = () => void;
 
 class MatchMedia {
     #matchMedia: MediaQueryList;
     #callbacks: ChangeCallback[] = [];
     #listener: ChangeCallback;
+    #pickedCallbacks: ChangeCallback[] | null = null;
 
     constructor(mediaQuery: MediaQuery) {
-        this.#listener = (ev) => this.#callbacks.forEach((cb) => cb(ev));
+        this.#listener = (ev) => {
+            if (this.#pickedCallbacks === null) {
+                this.#callbacks.forEach((cb) => cb(ev));
+            } else {
+                this.#callbacks.forEach((cb) => {
+                    if (this.#pickedCallbacks?.includes(cb)) {
+                        cb(ev);
+                    }
+                });
+                this.#pickedCallbacks = null;
+            }
+        };
         this.#matchMedia = window.matchMedia(mediaQuery);
         this.#matchMedia.addEventListener('change', this.#listener);
     }
 
-    run() {
+    run(...callbacks: ChangeCallback[]) {
+        this.#pickedCallbacks = callbacks.length === 0 ? null : callbacks;
         this.#matchMedia.dispatchEvent(new Event('change'));
+    }
+
+    unsubscribe(callback: ChangeCallback) {
+        this.#callbacks = this.#callbacks.filter((cb) => cb !== callback);
     }
 
     subscribe(callback: ChangeCallback): Unsubscribe {
@@ -25,7 +42,7 @@ class MatchMedia {
         }
 
         return () => {
-            this.#callbacks = this.#callbacks.filter((cb) => cb !== callback);
+            this.unsubscribe(callback);
         };
     }
 
