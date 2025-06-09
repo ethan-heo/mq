@@ -42,6 +42,7 @@ const createMatchMediaManager = (): MatchMediaManager => {
         },
         createMatchMediaHandler: () => {
             const unsubscribes = new Set<Unsubscribe>();
+            const callbacks = new Set<ChangeCallback>();
 
             const subscribe = (
                 device: DefaultMediaQuery['device'],
@@ -58,13 +59,16 @@ const createMatchMediaManager = (): MatchMediaManager => {
                 const unsubscribe = matchMedia.subscribe(callback);
 
                 unsubscribes.add(unsubscribe);
+                callbacks.add(callback);
 
                 return {
                     unsubscribe,
-                    update: (callback: ChangeCallback) => {
+                    update: (updateCallback: ChangeCallback) => {
                         unsubscribes.delete(unsubscribe);
+                        callbacks.delete(callback);
                         unsubscribe();
-                        return subscribe(device, callback);
+
+                        return subscribe(device, updateCallback);
                     },
                     run: () => {
                         matchMedia.run(callback);
@@ -74,7 +78,7 @@ const createMatchMediaManager = (): MatchMediaManager => {
 
             const run = () => {
                 for (const [, matchMedia] of matchMedias.entries()) {
-                    matchMedia.run();
+                    matchMedia.run(...callbacks);
                 }
             };
 
