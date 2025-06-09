@@ -85,6 +85,7 @@ const createMatchMediaManager = (): MatchMediaManager => {
             const clear = () => {
                 unsubscribes.forEach((unsubscribe) => unsubscribe());
                 unsubscribes.clear();
+                callbacks.clear();
             };
 
             return {
