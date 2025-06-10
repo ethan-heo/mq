@@ -88,10 +88,23 @@ const createMatchMediaManager = (): MatchMediaManager => {
                 callbacks.clear();
             };
 
+            const matches = () => {
+                let result = null;
+
+                for (const [device, matchMedia] of matchMedias.entries()) {
+                    if (matchMedia.matches()) {
+                        result = device;
+                    }
+                }
+
+                return result;
+            };
+
             return {
                 subscribe,
                 run,
                 clear,
+                matches,
             };
         },
         has: (device: DefaultMediaQuery['device']) => {
