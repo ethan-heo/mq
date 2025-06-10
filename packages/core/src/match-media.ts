@@ -12,6 +12,8 @@ class MatchMedia {
 
     constructor(mediaQuery: MediaQuery) {
         this.#listener = (ev) => {
+            if (!ev.matches) return;
+
             if (this.#pickedCallbacks === null) {
                 this.#callbacks.forEach((cb) => cb(ev));
             } else {
