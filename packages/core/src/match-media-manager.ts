@@ -14,6 +14,7 @@ export interface MatchMediaHandler {
     ): SubscribeResult;
     run(): void;
     clear(): void;
+    matches(): DefaultMediaQuery['device'] | null;
 }
 
 export interface MatchMediaManager {
