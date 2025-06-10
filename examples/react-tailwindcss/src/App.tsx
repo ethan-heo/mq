@@ -26,7 +26,7 @@ const styles = {
 };
 
 function App() {
-    const style = useMediaQuery({
+    const { module: style } = useMediaQuery({
         mobile: styles.mobile,
         tablet: styles.tablet,
         desktop: styles.desktop,
