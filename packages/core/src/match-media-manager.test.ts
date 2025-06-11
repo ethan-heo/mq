@@ -13,7 +13,11 @@ describe(`Usage`, () => {
     let matchMediaHandler: MatchMediaHandler;
 
     it(`Step1. createMatchMedia`, () => {
-        matchMediaManager.createMatchMedia('mobile', '(max-width: 768px)');
+        matchMediaManager.createMatchMedia(
+            'mobile',
+            '(max-width: 768px)',
+            true,
+        );
 
         expect(matchMediaManager.has('mobile')).toBeTruthy();
         expect(matchMediaManager.has('desktop')).toBeFalsy();
@@ -63,7 +67,11 @@ describe(`Function Test`, () => {
     });
 
     it(`Specific callback run`, () => {
-        matchMediaManager.createMatchMedia('mobile', '(max-width: 768px)');
+        matchMediaManager.createMatchMedia(
+            'mobile',
+            '(max-width: 768px)',
+            true,
+        );
         const obj = { callback1: () => {}, callback2: () => {} };
         const spy1 = vi.spyOn(obj, 'callback1');
         const spy2 = vi.spyOn(obj, 'callback2');
@@ -84,7 +92,11 @@ describe(`Function Test`, () => {
     });
 
     it(`Locally callback run`, () => {
-        matchMediaManager.createMatchMedia('mobile', '(max-width: 768px)');
+        matchMediaManager.createMatchMedia(
+            'mobile',
+            '(max-width: 768px)',
+            true,
+        );
         const obj = { callback1: () => {}, callback2: () => {} };
         const spy1 = vi.spyOn(obj, 'callback1');
         const spy2 = vi.spyOn(obj, 'callback2');

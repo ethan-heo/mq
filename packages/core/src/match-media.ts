@@ -9,20 +9,19 @@ class MatchMedia {
     #callbacks: ChangeCallback[] = [];
     #listener: ChangeCallback;
     #pickedCallbacks: ChangeCallback[] | null = null;
+    #skipMatches: boolean = false;
 
     constructor(mediaQuery: MediaQuery) {
         this.#listener = (ev) => {
-            if (!ev.matches) return;
+            if (!this.#skipMatches && !ev.matches) return;
 
-            if (this.#pickedCallbacks === null) {
-                this.#callbacks.forEach((cb) => cb(ev));
-            } else {
-                this.#callbacks.forEach((cb) => {
-                    if (this.#pickedCallbacks?.includes(cb)) {
-                        cb(ev);
-                    }
-                });
+            if (Array.isArray(this.#pickedCallbacks)) {
+                this.#callbacks.forEach(
+                    (cb) => this.#pickedCallbacks?.includes(cb) && cb(ev),
+                );
                 this.#pickedCallbacks = null;
+            } else {
+                this.#callbacks.forEach((cb) => cb(ev));
             }
         };
         this.#matchMedia = window.matchMedia(mediaQuery);
@@ -55,6 +54,10 @@ class MatchMedia {
     clear() {
         this.#matchMedia.removeEventListener('change', this.#listener);
         this.#callbacks = [];
+    }
+
+    skipMatches() {
+        this.#skipMatches = true;
     }
 }
 

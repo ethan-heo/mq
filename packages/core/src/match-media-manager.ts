@@ -21,6 +21,7 @@ export interface MatchMediaManager {
     createMatchMedia(
         device: DefaultMediaQuery['device'],
         mediaQuery: MediaQuery,
+        testMode?: boolean,
     ): void;
     createMatchMediaHandler(): MatchMediaHandler;
     has(device: DefaultMediaQuery['device']): boolean;
@@ -34,12 +35,19 @@ const createMatchMediaManager = (): MatchMediaManager => {
         createMatchMedia: (
             device: DefaultMediaQuery['device'],
             mediaQuery: MediaQuery,
+            testMode: boolean = false,
         ) => {
             if (Array.from(matchMedias.keys()).includes(device)) {
                 throw new Error(`Already created device: ${device}`);
             }
 
-            matchMedias.set(device, new MatchMedia(mediaQuery));
+            const matchMedia = new MatchMedia(mediaQuery);
+
+            if (testMode) {
+                matchMedia.skipMatches();
+            }
+
+            matchMedias.set(device, matchMedia);
         },
         createMatchMediaHandler: () => {
             const unsubscribes = new Set<Unsubscribe>();
