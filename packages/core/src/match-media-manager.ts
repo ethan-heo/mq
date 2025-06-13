@@ -18,29 +18,29 @@ export interface MatchMediaHandler {
 }
 
 export interface MatchMediaManager {
-    createMatchMedia(
+    setMediaQuery(
         device: DefaultMediaQuery['device'],
         mediaQuery: MediaQuery,
-        testMode?: boolean,
     ): void;
-    createMatchMediaHandler(): MatchMediaHandler;
+    init(testMode?: boolean): void;
+    createHandler(): MatchMediaHandler;
     has(device: DefaultMediaQuery['device']): boolean;
     clear(): void;
 }
 
 const createMatchMediaManager = (): MatchMediaManager => {
     const matchMedias = new Map<string, MatchMedia>();
+    const mediaQueries = new Map<DefaultMediaQuery['device'], MediaQuery>();
 
-    return {
-        createMatchMedia: (
-            device: DefaultMediaQuery['device'],
-            mediaQuery: MediaQuery,
-            testMode: boolean = false,
-        ) => {
-            if (Array.from(matchMedias.keys()).includes(device)) {
-                throw new Error(`Already created device: ${device}`);
-            }
+    const setMediaQuery = (
+        device: DefaultMediaQuery['device'],
+        mediaQuery: MediaQuery,
+    ) => {
+        mediaQueries.set(device, mediaQuery);
+    };
 
+    const init = (testMode = false) => {
+        for (const [device, mediaQuery] of mediaQueries.entries()) {
             const matchMedia = new MatchMedia(mediaQuery);
 
             if (testMode) {
@@ -48,84 +48,96 @@ const createMatchMediaManager = (): MatchMediaManager => {
             }
 
             matchMedias.set(device, matchMedia);
-        },
-        createMatchMediaHandler: () => {
-            const unsubscribes = new Set<Unsubscribe>();
-            const callbacks = new Set<ChangeCallback>();
+        }
+    };
 
-            const subscribe = (
-                device: DefaultMediaQuery['device'],
-                callback: ChangeCallback,
-            ) => {
-                const matchMedia = matchMedias.get(device);
+    const createHandler = () => {
+        const unsubscribes = new Set<Unsubscribe>();
+        const callbacks = new Set<ChangeCallback>();
 
-                if (!matchMedia) {
-                    throw new Error(
-                        `Not created MatchMedia: ${device}. You can first create MatchMedia instance using createMatchMedia`,
-                    );
-                }
+        const subscribe = (
+            device: DefaultMediaQuery['device'],
+            callback: ChangeCallback,
+        ) => {
+            const matchMedia = matchMedias.get(device);
 
-                const unsubscribe = matchMedia.subscribe(callback);
-
-                unsubscribes.add(unsubscribe);
-                callbacks.add(callback);
-
-                return {
-                    unsubscribe,
-                    update: (updateCallback: ChangeCallback) => {
-                        unsubscribes.delete(unsubscribe);
-                        callbacks.delete(callback);
-                        unsubscribe();
-
-                        return subscribe(device, updateCallback);
-                    },
-                    run: () => {
-                        matchMedia.run(callback);
-                    },
-                };
-            };
-
-            const run = () => {
-                for (const [, matchMedia] of matchMedias.entries()) {
-                    matchMedia.run(...callbacks);
-                }
-            };
-
-            const clear = () => {
-                unsubscribes.forEach((unsubscribe) => unsubscribe());
-                unsubscribes.clear();
-                callbacks.clear();
-            };
-
-            const matches = () => {
-                let result = null;
-
-                for (const [device, matchMedia] of matchMedias.entries()) {
-                    if (matchMedia.matches()) {
-                        result = device;
-                    }
-                }
-
-                return result;
-            };
-
-            return {
-                subscribe,
-                run,
-                clear,
-                matches,
-            };
-        },
-        has: (device: DefaultMediaQuery['device']) => {
-            return matchMedias.has(device);
-        },
-        clear: () => {
-            for (const [, matchMedia] of matchMedias.entries()) {
-                matchMedia.clear();
+            if (!matchMedia) {
+                throw new Error(
+                    `Not created MatchMedia: ${device}. You can first create MatchMedia instance using createMatchMedia`,
+                );
             }
 
-            matchMedias.clear();
-        },
+            const unsubscribe = matchMedia.subscribe(callback);
+
+            unsubscribes.add(unsubscribe);
+            callbacks.add(callback);
+
+            return {
+                unsubscribe,
+                update: (updateCallback: ChangeCallback) => {
+                    unsubscribes.delete(unsubscribe);
+                    callbacks.delete(callback);
+                    unsubscribe();
+
+                    return subscribe(device, updateCallback);
+                },
+                run: () => {
+                    matchMedia.run(callback);
+                },
+            };
+        };
+
+        const run = () => {
+            for (const [, matchMedia] of matchMedias.entries()) {
+                matchMedia.run(...callbacks);
+            }
+        };
+
+        const clear = () => {
+            unsubscribes.forEach((unsubscribe) => unsubscribe());
+            unsubscribes.clear();
+            callbacks.clear();
+        };
+
+        const matches = () => {
+            let result = null;
+
+            for (const [device, matchMedia] of matchMedias.entries()) {
+                if (matchMedia.matches()) {
+                    result = device;
+                }
+            }
+
+            return result;
+        };
+
+        return {
+            subscribe,
+            run,
+            clear,
+            matches,
+        };
+    };
+
+    const has = (device: DefaultMediaQuery['device']) => {
+        return matchMedias.has(device);
+    };
+
+    const clear = () => {
+        for (const [, matchMedia] of matchMedias.entries()) {
+            matchMedia.clear();
+        }
+
+        matchMedias.clear();
+        mediaQueries.clear();
+    };
+
+    return {
+        init,
+        has,
+        clear,
+        setMediaQuery,
+        createHandler,
     };
 };
 

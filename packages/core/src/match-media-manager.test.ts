@@ -12,18 +12,15 @@ describe(`Usage`, () => {
     let updatedSubscribed: SubscribeResult;
     let matchMediaHandler: MatchMediaHandler;
 
-    it(`Step1. createMatchMedia`, () => {
-        matchMediaManager.createMatchMedia(
-            'mobile',
-            '(max-width: 768px)',
-            true,
-        );
+    it(`Step1. Initialize`, () => {
+        matchMediaManager.setMediaQuery('mobile', '(max-width: 768px)');
+        matchMediaManager.init(true);
 
         expect(matchMediaManager.has('mobile')).toBeTruthy();
         expect(matchMediaManager.has('desktop')).toBeFalsy();
     });
     it(`Step2. subscribe callback using matchMediaHandler`, () => {
-        matchMediaHandler = matchMediaManager.createMatchMediaHandler();
+        matchMediaHandler = matchMediaManager.createHandler();
 
         subscribed = matchMediaHandler.subscribe('mobile', obj.callback1);
 
@@ -67,15 +64,12 @@ describe(`Function Test`, () => {
     });
 
     it(`Specific callback run`, () => {
-        matchMediaManager.createMatchMedia(
-            'mobile',
-            '(max-width: 768px)',
-            true,
-        );
+        matchMediaManager.setMediaQuery('mobile', '(max-width: 768px)');
+        matchMediaManager.init(true);
         const obj = { callback1: () => {}, callback2: () => {} };
         const spy1 = vi.spyOn(obj, 'callback1');
         const spy2 = vi.spyOn(obj, 'callback2');
-        const matchMediaHandler = matchMediaManager.createMatchMediaHandler();
+        const matchMediaHandler = matchMediaManager.createHandler();
 
         matchMediaHandler.subscribe('mobile', obj.callback1);
         const { run } = matchMediaHandler.subscribe('mobile', obj.callback2);
@@ -92,16 +86,13 @@ describe(`Function Test`, () => {
     });
 
     it(`Locally callback run`, () => {
-        matchMediaManager.createMatchMedia(
-            'mobile',
-            '(max-width: 768px)',
-            true,
-        );
+        matchMediaManager.setMediaQuery('mobile', '(max-width: 768px)');
+        matchMediaManager.init(true);
         const obj = { callback1: () => {}, callback2: () => {} };
         const spy1 = vi.spyOn(obj, 'callback1');
         const spy2 = vi.spyOn(obj, 'callback2');
-        const matchMediaHandler1 = matchMediaManager.createMatchMediaHandler();
-        const matchMediaHandler2 = matchMediaManager.createMatchMediaHandler();
+        const matchMediaHandler1 = matchMediaManager.createHandler();
+        const matchMediaHandler2 = matchMediaManager.createHandler();
 
         matchMediaHandler1.subscribe('mobile', obj.callback1);
         matchMediaHandler2.subscribe('mobile', obj.callback2);
