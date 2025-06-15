@@ -14,41 +14,36 @@ export interface MatchMediaHandler {
     ): SubscribeResult;
     run(): void;
     clear(): void;
-    matches(): DefaultMediaQuery['device'] | null;
 }
 
 export interface MatchMediaManager {
-    setMediaQuery(
+    createMatchMedia(
         device: DefaultMediaQuery['device'],
         mediaQuery: MediaQuery,
+        testMode?: boolean,
     ): void;
-    init(testMode?: boolean): void;
     createHandler(): MatchMediaHandler;
     has(device: DefaultMediaQuery['device']): boolean;
     clear(): void;
+    matches(): DefaultMediaQuery['device'] | null;
 }
 
 const createMatchMediaManager = (): MatchMediaManager => {
     const matchMedias = new Map<string, MatchMedia>();
     const mediaQueries = new Map<DefaultMediaQuery['device'], MediaQuery>();
 
-    const setMediaQuery = (
+    const createMatchMedia = (
         device: DefaultMediaQuery['device'],
         mediaQuery: MediaQuery,
+        testMode = false,
     ) => {
-        mediaQueries.set(device, mediaQuery);
-    };
+        const matchMedia = new MatchMedia(mediaQuery);
 
-    const init = (testMode = false) => {
-        for (const [device, mediaQuery] of mediaQueries.entries()) {
-            const matchMedia = new MatchMedia(mediaQuery);
-
-            if (testMode) {
-                matchMedia.skipMatches();
-            }
-
-            matchMedias.set(device, matchMedia);
+        if (testMode) {
+            matchMedia.skipMatches();
         }
+
+        matchMedias.set(device, matchMedia);
     };
 
     const createHandler = () => {
@@ -99,23 +94,10 @@ const createMatchMediaManager = (): MatchMediaManager => {
             callbacks.clear();
         };
 
-        const matches = () => {
-            let result = null;
-
-            for (const [device, matchMedia] of matchMedias.entries()) {
-                if (matchMedia.matches()) {
-                    result = device;
-                }
-            }
-
-            return result;
-        };
-
         return {
             subscribe,
             run,
             clear,
-            matches,
         };
     };
 
@@ -132,11 +114,23 @@ const createMatchMediaManager = (): MatchMediaManager => {
         mediaQueries.clear();
     };
 
+    const matches = () => {
+        let result = null;
+
+        for (const [device, matchMedia] of matchMedias.entries()) {
+            if (matchMedia.matches()) {
+                result = device;
+            }
+        }
+
+        return result;
+    };
+
     return {
-        init,
         has,
         clear,
-        setMediaQuery,
+        matches,
+        createMatchMedia,
         createHandler,
     };
 };

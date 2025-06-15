@@ -8,13 +8,16 @@ describe(`Usage`, () => {
     const obj = { callback1: () => {}, callback2: () => {} };
     const spy1 = vi.spyOn(obj, 'callback1');
     const spy2 = vi.spyOn(obj, 'callback2');
-    let subscribed: SubscribeResult;
-    let updatedSubscribed: SubscribeResult;
+    let subscriber: SubscribeResult;
+    let updatedSubscriber: SubscribeResult;
     let matchMediaHandler: MatchMediaHandler;
 
-    it(`Step1. Initialize`, () => {
-        matchMediaManager.setMediaQuery('mobile', '(max-width: 768px)');
-        matchMediaManager.init(true);
+    it(`Step1. createMatchMedia`, () => {
+        matchMediaManager.createMatchMedia(
+            'mobile',
+            '(max-width: 768px)',
+            true,
+        );
 
         expect(matchMediaManager.has('mobile')).toBeTruthy();
         expect(matchMediaManager.has('desktop')).toBeFalsy();
@@ -22,31 +25,31 @@ describe(`Usage`, () => {
     it(`Step2. subscribe callback using matchMediaHandler`, () => {
         matchMediaHandler = matchMediaManager.createHandler();
 
-        subscribed = matchMediaHandler.subscribe('mobile', obj.callback1);
+        subscriber = matchMediaHandler.subscribe('mobile', obj.callback1);
 
-        subscribed.run();
+        subscriber.run();
 
         expect(spy1).toBeCalledTimes(1);
     });
-    it(`Step3. update subscribed callback`, () => {
-        updatedSubscribed = subscribed.update(obj.callback2);
+    it(`Step3. update subscriber callback`, () => {
+        updatedSubscriber = subscriber.update(obj.callback2);
 
-        updatedSubscribed.run();
+        updatedSubscriber.run();
 
         expect(spy2).toBeCalledTimes(1);
         expect(spy1).toBeCalledTimes(1);
     });
     it(`Step4. unsubscribe callback to matchMediaHandler`, () => {
-        subscribed.unsubscribe();
-        subscribed.run();
+        subscriber.unsubscribe();
+        subscriber.run();
 
         expect(spy1).toBeCalledTimes(1);
     });
     it(`Step5. locally clear matchMediaHandler`, () => {
         matchMediaHandler.clear();
 
-        subscribed.run();
-        updatedSubscribed.run();
+        subscriber.run();
+        updatedSubscriber.run();
 
         expect(spy2).toBeCalledTimes(1);
         expect(spy1).toBeCalledTimes(1);
@@ -64,8 +67,11 @@ describe(`Function Test`, () => {
     });
 
     it(`Specific callback run`, () => {
-        matchMediaManager.setMediaQuery('mobile', '(max-width: 768px)');
-        matchMediaManager.init(true);
+        matchMediaManager.createMatchMedia(
+            'mobile',
+            '(max-width: 768px)',
+            true,
+        );
         const obj = { callback1: () => {}, callback2: () => {} };
         const spy1 = vi.spyOn(obj, 'callback1');
         const spy2 = vi.spyOn(obj, 'callback2');
@@ -86,8 +92,11 @@ describe(`Function Test`, () => {
     });
 
     it(`Locally callback run`, () => {
-        matchMediaManager.setMediaQuery('mobile', '(max-width: 768px)');
-        matchMediaManager.init(true);
+        matchMediaManager.createMatchMedia(
+            'mobile',
+            '(max-width: 768px)',
+            true,
+        );
         const obj = { callback1: () => {}, callback2: () => {} };
         const spy1 = vi.spyOn(obj, 'callback1');
         const spy2 = vi.spyOn(obj, 'callback2');
