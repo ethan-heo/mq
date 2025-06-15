@@ -1,7 +1,7 @@
 import matchMediaManager, {
     ChangeCallback,
     DefaultMediaQuery,
-    MatchMediaHandler,
+    safeAccess,
     SubscribeResult,
 } from 'mq-core';
 import { useEffect, useState } from 'react';
@@ -10,39 +10,33 @@ type Device = DefaultMediaQuery['device'];
 
 type Options = Partial<Record<Device, any>>;
 
-const initialModule = (options: Options, handler: MatchMediaHandler) => {
-    return options[handler.matches()!];
-};
-
 function useMediaQuery<T extends Options>(
     options: T,
     defaultValue?: T[keyof T],
 ) {
     const subscribeResults = new Map<Device, SubscribeResult>();
-    const matchMediaHandler = matchMediaManager.createMatchMediaHandler();
-    const [module, setModule] = useState(
-        defaultValue ?? initialModule(options, matchMediaHandler),
-    );
+    const [module, setModule] = useState(defaultValue);
 
     useEffect(() => {
+        const handler = matchMediaManager.createHandler();
+
         for (const [device, module] of Object.entries(options)) {
-            const subscribeResult = matchMediaHandler.subscribe(
-                device as Device,
-                () => {
-                    setModule(module);
-                },
-            );
+            const subscribeResult = handler.subscribe(device as Device, () => {
+                setModule(module);
+            });
 
             subscribeResults.set(device as Device, subscribeResult);
         }
 
+        handler.run();
+
         return () => {
-            matchMediaHandler.clear();
+            handler.clear();
         };
     }, []);
 
     return {
-        module: module as T[keyof T],
+        module: safeAccess(module) as T[keyof T],
         updateModule: (device: Device, callback: ChangeCallback) => {
             const subscribeResult = subscribeResults.get(device);
 
