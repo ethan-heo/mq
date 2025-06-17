@@ -4,7 +4,7 @@ import matchMediaManager, {
     safeAccess,
     SubscribeResult,
 } from 'mq-core';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 type Device = DefaultMediaQuery['device'];
 
@@ -17,7 +17,7 @@ function useMediaQuery<T extends Options>(
     const subscribeResults = new Map<Device, SubscribeResult>();
     const [module, setModule] = useState(defaultValue);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const handler = matchMediaManager.createHandler();
 
         for (const [device, module] of Object.entries(options)) {
