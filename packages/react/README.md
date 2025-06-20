@@ -1,6 +1,6 @@
-## react-mq-hook
+## useMediaQuery
 
-Provides hooks to use MQ in your React environment.
+This library is a React hook that is useful for managing responsive styles in a modular way when using environments such as CSS-in-JS or CSS Modules.
 
 ### Installation
 
@@ -17,93 +17,66 @@ pnpm add react-mq-hook
 
 ### Usage
 
-#### Option. Generate d.ts
+1. Create matchMedia instances for each platform.
 
-Helps you infer the viewport device information used in your project.
+    ```jsx
+    import { createRoot } from 'react-dom/client';
+    import { Global } from './common.styled.ts';
+    import { matchMediaManager } from 'react-mq-hook';
+    import App from './App.tsx';
 
-```typescript
-import 'react-mq-hook';
+    matchMediaManager.createMatchMedia('mobile', '(max-width: 768px)');
+    matchMediaManager.createMatchMedia(
+        'tablet',
+        '(min-width: 769px) and (max-width: 1024px)',
+    );
+    matchMediaManager.createMatchMedia('desktop', '(min-width: 1025px)');
 
-declare module 'react-mq-hook' {
-    export interface DefaultMediaQuery {
-        device: 'mobile' | 'tablet' | 'desktop';
+    createRoot(document.getElementById('root')!).render(
+        <>
+            <Global />
+            <App />
+        </>,
+    );
+    ```
+
+2. Use `useMediaQuery` to assign platform-specific modules as arguments and apply styles using the returned module.
+
+    ```jsx
+    import useMediaQuery from 'react-mq-hook';
+    import * as mobile from './mobile.styled';
+    import * as tablet from './tablet.styled';
+    import * as desktop from './desktop.styled';
+
+    function App() {
+        const Styled = useMediaQuery({
+            mobile,
+            tablet,
+            desktop,
+        });
+
+        return (
+            <Styled.Container>
+                <Styled.RedItem />
+                <Styled.GreenItem />
+                <Styled.BlueItem />
+            </Styled.Container>
+        );
     }
-}
-```
 
-#### 1. addMediaQuery
+    export default App;
+    ```
 
-Register the viewport information to use in your project.
+### TypeScript Support
 
-For example:
+- You can define platforms using a declaration file.
 
-```typescript
-import { createRoot } from 'react-dom/client';
-import { addMediaQuery } from 'react-mq-hook';
-import App from './App.tsx';
-import './common.css';
+    ```tsx
+    import 'react-mq-hook';
 
-addMediaQuery('mobile', '(max-width: 768px)');
-addMediaQuery('tablet', '(min-width: 769px) and (max-width: 1024px)');
-addMediaQuery('desktop', '(min-width: 1025px)');
-
-createRoot(document.getElementById('root')!).render(<App />);
-```
-
-#### 2. useMediaQuery
-
-Use the device-specific styles you registered using the useMediaQuery hook.
-
-```typescript
-import useMediaQuery from 'react-mq-hook';
-import mobile from './mobile.module.css';
-import tablet from './tablet.module.css';
-import desktop from './desktop.module.css';
-
-function App() {
-    const module = useMediaQuery({
-        mobile,
-        tablet,
-        desktop,
-    });
-
-    return (
-        <div className={module.container}>
-            <div className={`${module.item} ${module.red}`}></div>
-            <div className={`${module.item} ${module.green}`}></div>
-            <div className={`${module.item} ${module.blue}`}></div>
-        </div>
-    );
-}
-
-export default App;
-```
-
-#### 3. Set a default value
-
-By default, the return value is set to return a value where matchMedia's matches is true, but you can make it return the default value by setting the default value for the second argument.
-
-```typescript
-import useMediaQuery from 'react-mq-hook';
-import mobile from './mobile.module.css';
-import tablet from './tablet.module.css';
-import desktop from './desktop.module.css';
-
-function App() {
-    const module = useMediaQuery({
-        mobile,
-        tablet,
-        desktop,
-    }, mobile); // modules === mobile
-
-    return (
-        <div className={module.container}>
-            <div className={`${module.item} ${module.red}`}></div>
-            <div className={`${module.item} ${module.green}`}></div>
-            <div className={`${module.item} ${module.blue}`}></div>
-        </div>
-    );
-}
-
-export default App;
-```
+    declare module 'react-mq-hook' {
+        export interface DefaultMediaQuery {
+            device: 'mobile' | 'tablet' | 'desktop';
+        }
+    }
+    ```
