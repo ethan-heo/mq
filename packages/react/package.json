@@ -12,8 +12,7 @@
         }
     },
     "scripts": {
-        "build": "tsc && vite build",
-        "test": "vitest"
+        "build": "tsc && vite build"
     },
     "devDependencies": {
         "@testing-library/dom": "^10.4.0",
