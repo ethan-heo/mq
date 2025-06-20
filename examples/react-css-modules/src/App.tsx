@@ -4,7 +4,7 @@ import tablet from './tablet.module.css';
 import desktop from './desktop.module.css';
 
 function App() {
-    const { module } = useMediaQuery({
+    const module = useMediaQuery({
         mobile,
         tablet,
         desktop,
@@ -25,7 +25,7 @@ function App() {
 export default App;
 
 function Test1() {
-    const { module } = useMediaQuery({
+    const module = useMediaQuery({
         mobile: desktop,
         tablet,
         desktop: mobile,

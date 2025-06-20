@@ -13,7 +13,7 @@ matchMediaManager.createMatchMedia('desktop', '(min-width: 1025px)');
 matchMediaManager.createMatchMedia('mobile', '(max-width: 768px)');
 
 export default function Client() {
-    const { module: css } = useMediaQuery({
+    const css = useMediaQuery({
         mobile,
         tablet,
         desktop,

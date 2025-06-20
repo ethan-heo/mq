@@ -4,7 +4,7 @@ import * as tablet from './tablet.styled';
 import * as desktop from './desktop.styled';
 
 function App() {
-    const { module: Styled } = useMediaQuery({
+    const Styled = useMediaQuery({
         mobile,
         tablet,
         desktop,
