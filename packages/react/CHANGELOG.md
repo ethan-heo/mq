@@ -1,5 +1,11 @@
 # react-mq-hook
 
+## 0.2.0
+
+### Minor Changes
+
+- [#37](https://github.com/ethan-heo/mq/pull/37) [`08f294d`](https://github.com/ethan-heo/mq/commit/08f294dee9acfa589ce34d3431d8af68543fae0f) Thanks [@ethan-heo](https://github.com/ethan-heo)! - Change work in progress due to change in core module structure
+
 ## 0.1.5
 
 ### Patch Changes
