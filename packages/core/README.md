@@ -1,75 +1,49 @@
+다음은 원문의 형식을 그대로 유지한 영어 번역입니다:
+
+---
+
 ## mq-core
 
-Provides an interface based on handlers created utilizing window.matchMedia.
+**mq-core** is based on the [window.matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia) API and serves the role of supporting registration, removal, and update of callbacks using the `change` event. It is designed with the intention of being adaptable across various frameworks.
 
 ### Usage
 
-#### 1. addMediaQuery
+1. Use the `createMatchMedia` method to create a `window.matchMedia` instance. During this process, a `change` event is defined.
+2. Use the `createHandler` method to create an object that can subscribe, remove, and execute callback functions for the `change` event.
+3. Use the `subscribe` function of the object created via the `createHandler` method to register a callback function.
+4. The object created via the `subscribe` method can unsubscribe, update, or execute the callback.
 
-Utilize a Map<DefaultMediaQuery['device'], MediaQuery> Singleton object to register a MediaQuery per device.
+    1. `update`: Replaces the initially registered callback with the given callback. The originally registered callback will be removed.
+    2. `run`: Executes the registered callback if the current viewport matches the registered media query size; otherwise, it does not run.
+    3. `unsubscribe`: Removes the registered callback function.
 
-For Example:
+5. Removes all callbacks registered to the handler.
+6. Removes all callbacks associated with the created matchMedia.
 
-```typescript
-addMediaQuery('mobile', '(max-width: 768px)');
-```
+```jsx
+import matchMediaManager from './match-media-manager';
 
-#### 2. createMatchMedia
+// 1. Create a window.matchMedia handler
+matchMediaManager.createMatchMedia('mobile', '(max-width: 768px)');
 
-Create an instance of the handler that utilizes window.matchMedia.
+// 2. Create a handler
+const handler = matchMediaManager.createHandler();
 
-For Example:
+// 3. Register the CALL_BACK function
+let subscriber = handler.subscribe('mobile', CALL_BACK); // CALL_BACK is executed when the viewport changes to mobile size.
 
-```typescript
-createMatchMedia('mobile');
-```
+// 4-1. Update CALL_BACK
+subscriber = handler.update(CALL_BACK_2); // The original CALL_BACK will be removed.
 
-#### 3. Registering callbacks
+// 4-2. Execute CALL_BACK_2
+subscriber.run(); // CALL_BACK_2 will be executed if the current viewport matches the mobile size.
 
-You can perform a registered callback using the MediaQueryList's change event as a notifier.
-When you execute the subscribe method, the unsubscribe function is returned.
-For example:
+// 4-3. Remove CALL_BACK_2
+subscriber.unsubscribe();
 
-```typescript
-const mobile = createMatchMedia('mobile');
-const unsubscribe = mobile.subscribe((ev: MediaQueryListEvent) => {
-    if (ev.matches) {
-        // logic
-    }
-});
-```
+// 5. Remove all CALL_BACK functions managed by the handler
+handler.clear();
 
-#### Option 1. Fire immediately
-
-You can have the change event fire immediately, rather than being triggered by a change in the viewport.
-
-For example:
-
-```typescript
-const mobile = createMatchMedia('mobile');
-const unsubscribe = mobile.subscribe((ev: MediaQueryListEvent) => {
-    if (ev.matches) {
-        // logic
-    }
-});
-
-mobile.run();
-```
-
-#### Option 2. Create a d.ts
-
-You can override the DefaultMediaQuery interface to make it possible to infer the device property as you define it.
-
-Override it based on the library you use.
-
-For example:
-
-```typescript
-import 'mq-core';
-
-declare module 'mq-core' {
-    export interface DefaultMediaQuery {
-        device: 'mobile' | 'tablet' | 'desktop';
-    }
-}
+// 6. Remove all CALL_BACK functions associated with the created matchMedia
+matchMediaManager.clear();
 ```

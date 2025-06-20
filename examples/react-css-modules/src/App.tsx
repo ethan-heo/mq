@@ -11,6 +11,27 @@ function App() {
     });
 
     return (
+        <>
+            <div className={module.container}>
+                <div className={`${module.item} ${module.red}`}></div>
+                <div className={`${module.item} ${module.green}`}></div>
+                <div className={`${module.item} ${module.blue}`}></div>
+            </div>
+            <Test1 />
+        </>
+    );
+}
+
+export default App;
+
+function Test1() {
+    const module = useMediaQuery({
+        mobile: desktop,
+        tablet,
+        desktop: mobile,
+    });
+
+    return (
         <div className={module.container}>
             <div className={`${module.item} ${module.red}`}></div>
             <div className={`${module.item} ${module.green}`}></div>
@@ -18,5 +39,3 @@ function App() {
         </div>
     );
 }
-
-export default App;

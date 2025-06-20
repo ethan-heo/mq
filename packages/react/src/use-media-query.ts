@@ -1,88 +1,49 @@
-import MatchMedia, { createMatchMedia, DefaultMediaQuery } from 'mq-core';
-import { useEffect, useState, useMemo } from 'react';
+import matchMediaManager, {
+    DefaultMediaQuery,
+    safeAccess,
+    SubscribeResult,
+} from 'mq-core';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 type Device = DefaultMediaQuery['device'];
 
 type Options = Partial<Record<Device, any>>;
 
-type MatchMediaMap = Map<Device, MatchMedia>;
+const initialModule = (options: Options) => {
+    const device = matchMediaManager.matches();
 
-const initialState = <T extends Options>({
-    options,
-    matchMediaMap,
-    defaultValue,
-}: {
-    defaultValue?: T[keyof T];
-    options: T;
-    matchMediaMap: MatchMediaMap;
-}) => {
-    if (defaultValue) {
-        return defaultValue;
-    }
+    if (device === null) return undefined;
 
-    for (const [device, module] of Object.entries(options)) {
-        const matchMedia = matchMediaMap.get(device as Device);
-
-        if (!matchMedia) {
-            continue;
-        }
-
-        if (matchMedia.matches()) {
-            return module;
-        }
-    }
-};
-
-const createMatchMediaMap = (options: Options) => {
-    const matchMediaMap = new Map<Device, MatchMedia>();
-
-    if (typeof window === 'undefined') {
-        return matchMediaMap;
-    }
-
-    Object.keys(options).forEach((device) => {
-        matchMediaMap.set(device as Device, createMatchMedia(device as Device));
-    });
-
-    return matchMediaMap;
+    return options[device];
 };
 
 function useMediaQuery<T extends Options>(
     options: T,
     defaultValue?: T[keyof T],
 ) {
-    const matchMediaMap = useMemo(() => createMatchMediaMap(options), []);
-    const [module, setModule] = useState<T[Device]>(
-        initialState({ options, matchMediaMap, defaultValue }),
+    const handler = useRef(matchMediaManager.createHandler()).current;
+    const subscribeResults = new Map<Device, SubscribeResult>();
+    const [module, setModule] = useState(
+        defaultValue ?? initialModule(options),
     );
 
-    useEffect(() => {
-        Object.entries(options).forEach(([device, module]) => {
-            const matchMedia = matchMediaMap.get(device as Device);
-
-            if (!matchMedia) {
-                return;
-            }
-
-            matchMedia.subscribe((ev) => {
-                const matches = (ev.currentTarget as MediaQueryList)!.matches;
-
-                if (matches) {
-                    setModule(module);
-                }
+    useLayoutEffect(() => {
+        for (const [device, module] of Object.entries(options)) {
+            const subscribeResult = handler.subscribe(device as Device, () => {
+                setModule(module);
             });
 
-            matchMedia.run();
-        });
+            subscribeResults.set(device as Device, subscribeResult);
+        }
+
+        handler.run();
 
         return () => {
-            matchMediaMap.forEach((matchMedia) => {
-                matchMedia.clear();
-            });
+            handler.clear();
         };
     }, []);
 
-    return module as T[keyof T];
+    return safeAccess(module) as T[keyof T];
 }
 
 export default useMediaQuery;

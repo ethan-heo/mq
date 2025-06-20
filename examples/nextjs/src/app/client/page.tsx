@@ -1,23 +1,23 @@
 'use client';
 
-import useMediaQuery, { addMediaQuery } from 'react-mq-hook';
+import useMediaQuery, { matchMediaManager } from 'react-mq-hook';
 import mobile from '../mobile.module.css';
 import tablet from '../tablet.module.css';
 import desktop from '../desktop.module.css';
 
-addMediaQuery('mobile', '(max-width: 768px)');
-addMediaQuery('tablet', '(min-width: 769px) and (max-width: 1024px)');
-addMediaQuery('desktop', '(min-width: 1025px)');
+matchMediaManager.createMatchMedia(
+    'tablet',
+    '(min-width: 769px) and (max-width: 1024px)',
+);
+matchMediaManager.createMatchMedia('desktop', '(min-width: 1025px)');
+matchMediaManager.createMatchMedia('mobile', '(max-width: 768px)');
 
 export default function Client() {
-    const css = useMediaQuery(
-        {
-            mobile,
-            tablet,
-            desktop,
-        },
+    const css = useMediaQuery({
+        mobile,
+        tablet,
         desktop,
-    );
+    });
 
     return (
         <div suppressHydrationWarning className={css.container}>
