@@ -1,5 +1,4 @@
 import matchMediaManager, {
-    ChangeCallback,
     DefaultMediaQuery,
     safeAccess,
     SubscribeResult,
@@ -44,17 +43,7 @@ function useMediaQuery<T extends Options>(
         };
     }, []);
 
-    return {
-        module: safeAccess(module) as T[keyof T],
-        updateModule: (device: Device, callback: ChangeCallback) => {
-            const subscribeResult = subscribeResults.get(device);
-
-            if (subscribeResult) {
-                subscribeResult.update(callback);
-                subscribeResult.run();
-            }
-        },
-    };
+    return safeAccess(module) as T[keyof T];
 }
 
 export default useMediaQuery;
