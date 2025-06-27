@@ -9,6 +9,8 @@
         tablet: Tablet,
         desktop: Desktop,
     });
+
+    console.log(Style);
 </script>
 
 <svelte:component this={$Style}>
