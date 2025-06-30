@@ -1,8 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import matchMediaManager, {
+import createMatchMediaManager, {
     MatchMediaHandler,
     SubscribeResult,
 } from './match-media-manager';
+
+interface DefaultMediaQuery {
+    device: 'mobile' | 'desktop';
+}
+
+const matchMediaManager = createMatchMediaManager<DefaultMediaQuery>();
 
 describe(`Usage`, () => {
     const obj = { callback1: () => {}, callback2: () => {} };
@@ -10,7 +16,7 @@ describe(`Usage`, () => {
     const spy2 = vi.spyOn(obj, 'callback2');
     let subscriber: SubscribeResult;
     let updatedSubscriber: SubscribeResult;
-    let matchMediaHandler: MatchMediaHandler;
+    let matchMediaHandler: MatchMediaHandler<DefaultMediaQuery>;
 
     it(`Step1. createMatchMedia`, () => {
         matchMediaManager.createMatchMedia(

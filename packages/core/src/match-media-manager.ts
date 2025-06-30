@@ -1,5 +1,9 @@
 import MatchMedia, { ChangeCallback, Unsubscribe } from './match-media';
-import { DefaultMediaQuery, MediaQuery } from './types';
+import { MediaQuery } from './types';
+
+interface EmptyObject {
+    [key: string]: any;
+}
 
 export interface SubscribeResult {
     unsubscribe: Unsubscribe;
@@ -7,7 +11,7 @@ export interface SubscribeResult {
     run(): void;
 }
 
-export interface MatchMediaHandler {
+export interface MatchMediaHandler<DefaultMediaQuery extends EmptyObject> {
     subscribe(
         device: DefaultMediaQuery['device'],
         callback: ChangeCallback,
@@ -16,24 +20,26 @@ export interface MatchMediaHandler {
     clear(): void;
 }
 
-export interface MatchMediaManager {
+export interface MatchMediaManager<DefaultMediaQuery extends EmptyObject> {
     createMatchMedia(
         device: DefaultMediaQuery['device'],
         mediaQuery: MediaQuery,
         testMode?: boolean,
     ): void;
-    createHandler(): MatchMediaHandler;
+    createHandler(): MatchMediaHandler<DefaultMediaQuery>;
     has(device: DefaultMediaQuery['device']): boolean;
     clear(): void;
     matches(): DefaultMediaQuery['device'] | null;
 }
 
-const createMatchMediaManager = (): MatchMediaManager => {
+const createMatchMediaManager = <
+    T extends EmptyObject,
+>(): MatchMediaManager<T> => {
     const matchMedias = new Map<string, MatchMedia>();
-    const mediaQueries = new Map<DefaultMediaQuery['device'], MediaQuery>();
+    const mediaQueries = new Map<T['device'], MediaQuery>();
 
     const createMatchMedia = (
-        device: DefaultMediaQuery['device'],
+        device: T['device'],
         mediaQuery: MediaQuery,
         testMode = false,
     ) => {
@@ -50,10 +56,7 @@ const createMatchMediaManager = (): MatchMediaManager => {
         const unsubscribes = new Set<Unsubscribe>();
         const callbacks = new Set<ChangeCallback>();
 
-        const subscribe = (
-            device: DefaultMediaQuery['device'],
-            callback: ChangeCallback,
-        ) => {
+        const subscribe = (device: T['device'], callback: ChangeCallback) => {
             const matchMedia = matchMedias.get(device);
 
             if (!matchMedia) {
@@ -101,7 +104,7 @@ const createMatchMediaManager = (): MatchMediaManager => {
         };
     };
 
-    const has = (device: DefaultMediaQuery['device']) => {
+    const has = (device: T['device']) => {
         return matchMedias.has(device);
     };
 
@@ -115,11 +118,11 @@ const createMatchMediaManager = (): MatchMediaManager => {
     };
 
     const matches = () => {
-        let result = null;
+        let result: T['device'] | null = null;
 
         for (const [device, matchMedia] of matchMedias.entries()) {
             if (matchMedia.matches()) {
-                result = device;
+                result = device as T['device'];
             }
         }
 
@@ -135,4 +138,4 @@ const createMatchMediaManager = (): MatchMediaManager => {
     };
 };
 
-export default createMatchMediaManager();
+export default createMatchMediaManager;

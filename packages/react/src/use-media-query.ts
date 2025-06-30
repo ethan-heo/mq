@@ -1,12 +1,13 @@
-import matchMediaManager, {
-    DefaultMediaQuery,
-    safeAccess,
-    SubscribeResult,
-} from 'mq-core';
+import createMatchMediaManager, { safeAccess, SubscribeResult } from 'mq-core';
 import { useLayoutEffect, useRef, useState } from 'react';
 
-type Device = DefaultMediaQuery['device'];
+export interface DefaultMediaQuery {
+    [key: string]: any;
+}
 
+export const matchMediaManager = createMatchMediaManager<DefaultMediaQuery>();
+
+type Device = DefaultMediaQuery['device'];
 type Options = Partial<Record<Device, any>>;
 
 const initialModule = (options: Options) => {

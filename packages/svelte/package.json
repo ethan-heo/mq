@@ -1,0 +1,40 @@
+{
+    "name": "svelte-mq",
+    "version": "0.0.0",
+    "type": "module",
+    "files": [
+        "dist/"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "scripts": {
+        "build": "tsc && vite build"
+    },
+    "devDependencies": {
+        "typescript": "~5.8.3",
+        "vite": "^7.0.0",
+        "vite-plugin-dts": "^4.5.1"
+    },
+    "dependencies": {
+        "mq-core": "workspace:*",
+        "svelte": "^5"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "description": "Provides hooks to use MQ in your Svelte environment",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ethan-heo/mq.git"
+    },
+    "keywords": [
+        "media query",
+        "responsive",
+        "match media",
+        "svelte"
+    ]
+}
