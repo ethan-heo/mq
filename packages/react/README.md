@@ -1,4 +1,4 @@
-## useMediaQuery
+## react-mq-hook
 
 This library is a React hook that is useful for managing responsive styles in a modular way when using environments such as CSS-in-JS or CSS Modules.
 
@@ -66,6 +66,8 @@ pnpm add react-mq-hook
 
     export default App;
     ```
+
+You can find more examples in the [examples/](../../examples/) directory.
 
 ### TypeScript Support
 
