@@ -1,6 +1,12 @@
-import matchMediaManager, { type DefaultMediaQuery } from 'mq-core';
+import createMatchMediaManager from 'mq-core';
 import { onDestroy, onMount } from 'svelte';
-import { writable } from 'svelte/store'
+import { writable } from 'svelte/store';
+
+export interface DefaultMediaQuery {
+    [key: string]: any;
+}
+
+export const matchMediaManager = createMatchMediaManager<DefaultMediaQuery>();
 
 type Device = DefaultMediaQuery['device'];
 
@@ -14,26 +20,25 @@ const initialModule = (modules: Modules) => {
     return modules[device];
 };
 
-
 const mq = <M extends Modules>(modules: M, defaultModule?: M[keyof M]) => {
     const handler = matchMediaManager.createHandler();
-    const module = writable(defaultModule ?? initialModule(modules))
+    const module = writable(defaultModule ?? initialModule(modules));
 
     onMount(() => {
         for (const [device, newModule] of Object.entries(modules)) {
             handler.subscribe(device, () => {
-                module.set(newModule)
+                module.set(newModule);
             });
         }
 
         handler.run();
-    })
+    });
 
     onDestroy(() => {
-        handler.clear()
-    })
+        handler.clear();
+    });
 
-    return module
+    return module;
 };
 
 export default mq;

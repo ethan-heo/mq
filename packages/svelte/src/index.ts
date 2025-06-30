@@ -1,2 +1,2 @@
-export { default } from './mq'
-export { default as matchMediaManager } from 'mq-core';
+export { default } from './mq';
+export { matchMediaManager, type DefaultMediaQuery } from './mq';

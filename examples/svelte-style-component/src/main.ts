@@ -1,7 +1,7 @@
-import { mount } from 'svelte'
-import './app.css'
-import App from './App.svelte'
-import { matchMediaManager } from 'svelte-mq'
+import { mount } from 'svelte';
+import './app.css';
+import App from './App.svelte';
+import { matchMediaManager } from 'svelte-mq';
 
 matchMediaManager.createMatchMedia('mobile', '(max-width: 768px)');
 matchMediaManager.createMatchMedia(
@@ -11,7 +11,7 @@ matchMediaManager.createMatchMedia(
 matchMediaManager.createMatchMedia('desktop', '(min-width: 1025px)');
 
 const app = mount(App, {
-  target: document.getElementById('app')!,
-})
+    target: document.getElementById('app')!,
+});
 
-export default app
+export default app;
