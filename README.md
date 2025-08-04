@@ -2,6 +2,8 @@
 
 MQ is a library that makes it easy to work with responsiveness in a modular system environment.
 
+[Deep wiki](https://deepwiki.com/ethan-heo/mq/1-overview)
+
 ### Examples
 
 - React
